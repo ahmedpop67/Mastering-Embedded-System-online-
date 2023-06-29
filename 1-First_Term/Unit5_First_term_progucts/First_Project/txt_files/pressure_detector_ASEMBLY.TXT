@@ -1,0 +1,694 @@
+
+pressure_detector.elf:     file format elf32-littlearm
+
+
+Disassembly of section .text:
+
+08000000 <vectors>:
+ 8000000:	2c 10 00 20 8d 03 00 08 81 03 00 08 81 03 00 08     ,.. ............
+ 8000010:	81 03 00 08 81 03 00 08 81 03 00 08                 ............
+
+0800001c <alarm_init>:
+void (*alarm_st)();
+
+alarm_st_en alarm_st_id;
+
+void alarm_init()
+{
+ 800001c:	b480      	push	{r7}
+ 800001e:	af00      	add	r7, sp, #0
+   //alarm_init
+	alarm_st=STATE(alarm_waiting);
+ 8000020:	4b03      	ldr	r3, [pc, #12]	; (8000030 <alarm_init+0x14>)
+ 8000022:	4a04      	ldr	r2, [pc, #16]	; (8000034 <alarm_init+0x18>)
+ 8000024:	601a      	str	r2, [r3, #0]
+}
+ 8000026:	bf00      	nop
+ 8000028:	46bd      	mov	sp, r7
+ 800002a:	bc80      	pop	{r7}
+ 800002c:	4770      	bx	lr
+ 800002e:	bf00      	nop
+ 8000030:	20000004 	.word	0x20000004
+ 8000034:	080000c9 	.word	0x080000c9
+
+08000038 <start_alarm>:
+
+void start_alarm()
+{
+ 8000038:	b480      	push	{r7}
+ 800003a:	af00      	add	r7, sp, #0
+	alarm_st=STATE(alarm_start);
+ 800003c:	4b03      	ldr	r3, [pc, #12]	; (800004c <start_alarm+0x14>)
+ 800003e:	4a04      	ldr	r2, [pc, #16]	; (8000050 <start_alarm+0x18>)
+ 8000040:	601a      	str	r2, [r3, #0]
+}
+ 8000042:	bf00      	nop
+ 8000044:	46bd      	mov	sp, r7
+ 8000046:	bc80      	pop	{r7}
+ 8000048:	4770      	bx	lr
+ 800004a:	bf00      	nop
+ 800004c:	20000004 	.word	0x20000004
+ 8000050:	08000071 	.word	0x08000071
+
+08000054 <stop_alarm>:
+
+void stop_alarm()
+{
+ 8000054:	b480      	push	{r7}
+ 8000056:	af00      	add	r7, sp, #0
+	alarm_st=STATE(alarm_stop);
+ 8000058:	4b03      	ldr	r3, [pc, #12]	; (8000068 <stop_alarm+0x14>)
+ 800005a:	4a04      	ldr	r2, [pc, #16]	; (800006c <stop_alarm+0x18>)
+ 800005c:	601a      	str	r2, [r3, #0]
+}
+ 800005e:	bf00      	nop
+ 8000060:	46bd      	mov	sp, r7
+ 8000062:	bc80      	pop	{r7}
+ 8000064:	4770      	bx	lr
+ 8000066:	bf00      	nop
+ 8000068:	20000004 	.word	0x20000004
+ 800006c:	080000a1 	.word	0x080000a1
+
+08000070 <st_alarm_start>:
+
+STATE_define(alarm_start)
+{
+ 8000070:	b580      	push	{r7, lr}
+ 8000072:	af00      	add	r7, sp, #0
+	alarm_st_id=alarm_start;
+ 8000074:	4b06      	ldr	r3, [pc, #24]	; (8000090 <st_alarm_start+0x20>)
+ 8000076:	2200      	movs	r2, #0
+ 8000078:	701a      	strb	r2, [r3, #0]
+	Set_Alarm_actuator(0);
+ 800007a:	2000      	movs	r0, #0
+ 800007c:	f000 f8ca 	bl	8000214 <Set_Alarm_actuator>
+	Delay(2000000);
+ 8000080:	4804      	ldr	r0, [pc, #16]	; (8000094 <st_alarm_start+0x24>)
+ 8000082:	f000 f8ab 	bl	80001dc <Delay>
+	alarm_st=STATE(alarm_waiting);
+ 8000086:	4b04      	ldr	r3, [pc, #16]	; (8000098 <st_alarm_start+0x28>)
+ 8000088:	4a04      	ldr	r2, [pc, #16]	; (800009c <st_alarm_start+0x2c>)
+ 800008a:	601a      	str	r2, [r3, #0]
+}
+ 800008c:	bf00      	nop
+ 800008e:	bd80      	pop	{r7, pc}
+ 8000090:	20000008 	.word	0x20000008
+ 8000094:	001e8480 	.word	0x001e8480
+ 8000098:	20000004 	.word	0x20000004
+ 800009c:	080000c9 	.word	0x080000c9
+
+080000a0 <st_alarm_stop>:
+
+STATE_define(alarm_stop)
+{
+ 80000a0:	b580      	push	{r7, lr}
+ 80000a2:	af00      	add	r7, sp, #0
+	alarm_st_id=alarm_stop;
+ 80000a4:	4b05      	ldr	r3, [pc, #20]	; (80000bc <st_alarm_stop+0x1c>)
+ 80000a6:	2201      	movs	r2, #1
+ 80000a8:	701a      	strb	r2, [r3, #0]
+	Set_Alarm_actuator(1);
+ 80000aa:	2001      	movs	r0, #1
+ 80000ac:	f000 f8b2 	bl	8000214 <Set_Alarm_actuator>
+	alarm_st=STATE(alarm_waiting);
+ 80000b0:	4b03      	ldr	r3, [pc, #12]	; (80000c0 <st_alarm_stop+0x20>)
+ 80000b2:	4a04      	ldr	r2, [pc, #16]	; (80000c4 <st_alarm_stop+0x24>)
+ 80000b4:	601a      	str	r2, [r3, #0]
+}
+ 80000b6:	bf00      	nop
+ 80000b8:	bd80      	pop	{r7, pc}
+ 80000ba:	bf00      	nop
+ 80000bc:	20000008 	.word	0x20000008
+ 80000c0:	20000004 	.word	0x20000004
+ 80000c4:	080000c9 	.word	0x080000c9
+
+080000c8 <st_alarm_waiting>:
+
+STATE_define(alarm_waiting)
+{
+ 80000c8:	b480      	push	{r7}
+ 80000ca:	af00      	add	r7, sp, #0
+	alarm_st_id=alarm_waiting;
+ 80000cc:	4b03      	ldr	r3, [pc, #12]	; (80000dc <st_alarm_waiting+0x14>)
+ 80000ce:	2202      	movs	r2, #2
+ 80000d0:	701a      	strb	r2, [r3, #0]
+}
+ 80000d2:	bf00      	nop
+ 80000d4:	46bd      	mov	sp, r7
+ 80000d6:	bc80      	pop	{r7}
+ 80000d8:	4770      	bx	lr
+ 80000da:	bf00      	nop
+ 80000dc:	20000008 	.word	0x20000008
+
+080000e0 <high_presure_detect>:
+void (*alr_mon_st)();
+
+alr_mon_st_en alr_mon_st_id;
+
+void high_presure_detect()
+{
+ 80000e0:	b480      	push	{r7}
+ 80000e2:	af00      	add	r7, sp, #0
+	alr_mon_st=STATE(alarm_on);
+ 80000e4:	4b03      	ldr	r3, [pc, #12]	; (80000f4 <high_presure_detect+0x14>)
+ 80000e6:	4a04      	ldr	r2, [pc, #16]	; (80000f8 <high_presure_detect+0x18>)
+ 80000e8:	601a      	str	r2, [r3, #0]
+}
+ 80000ea:	bf00      	nop
+ 80000ec:	46bd      	mov	sp, r7
+ 80000ee:	bc80      	pop	{r7}
+ 80000f0:	4770      	bx	lr
+ 80000f2:	bf00      	nop
+ 80000f4:	2000000c 	.word	0x2000000c
+ 80000f8:	08000115 	.word	0x08000115
+
+080000fc <st_alarm_off>:
+
+STATE_define(alarm_off)
+{
+ 80000fc:	b580      	push	{r7, lr}
+ 80000fe:	af00      	add	r7, sp, #0
+	alr_mon_st_id=alarm_off;
+ 8000100:	4b03      	ldr	r3, [pc, #12]	; (8000110 <st_alarm_off+0x14>)
+ 8000102:	2200      	movs	r2, #0
+ 8000104:	701a      	strb	r2, [r3, #0]
+	stop_alarm();
+ 8000106:	f7ff ffa5 	bl	8000054 <stop_alarm>
+}
+ 800010a:	bf00      	nop
+ 800010c:	bd80      	pop	{r7, pc}
+ 800010e:	bf00      	nop
+ 8000110:	20000010 	.word	0x20000010
+
+08000114 <st_alarm_on>:
+STATE_define(alarm_on)
+{
+ 8000114:	b580      	push	{r7, lr}
+ 8000116:	af00      	add	r7, sp, #0
+	alr_mon_st_id=alarm_on;
+ 8000118:	4b04      	ldr	r3, [pc, #16]	; (800012c <st_alarm_on+0x18>)
+ 800011a:	2201      	movs	r2, #1
+ 800011c:	701a      	strb	r2, [r3, #0]
+	start_alarm();
+ 800011e:	f7ff ff8b 	bl	8000038 <start_alarm>
+	alr_mon_st=STATE(alarm_off);
+ 8000122:	4b03      	ldr	r3, [pc, #12]	; (8000130 <st_alarm_on+0x1c>)
+ 8000124:	4a03      	ldr	r2, [pc, #12]	; (8000134 <st_alarm_on+0x20>)
+ 8000126:	601a      	str	r2, [r3, #0]
+}
+ 8000128:	bf00      	nop
+ 800012a:	bd80      	pop	{r7, pc}
+ 800012c:	20000010 	.word	0x20000010
+ 8000130:	2000000c 	.word	0x2000000c
+ 8000134:	080000fd 	.word	0x080000fd
+
+08000138 <st_timer_waiting>:
+STATE_define(timer_waiting)
+{
+ 8000138:	b480      	push	{r7}
+ 800013a:	af00      	add	r7, sp, #0
+	alr_mon_st_id=timer_waiting;
+ 800013c:	4b04      	ldr	r3, [pc, #16]	; (8000150 <st_timer_waiting+0x18>)
+ 800013e:	2202      	movs	r2, #2
+ 8000140:	701a      	strb	r2, [r3, #0]
+	alr_mon_st=STATE(alarm_off);
+ 8000142:	4b04      	ldr	r3, [pc, #16]	; (8000154 <st_timer_waiting+0x1c>)
+ 8000144:	4a04      	ldr	r2, [pc, #16]	; (8000158 <st_timer_waiting+0x20>)
+ 8000146:	601a      	str	r2, [r3, #0]
+}
+ 8000148:	bf00      	nop
+ 800014a:	46bd      	mov	sp, r7
+ 800014c:	bc80      	pop	{r7}
+ 800014e:	4770      	bx	lr
+ 8000150:	20000010 	.word	0x20000010
+ 8000154:	2000000c 	.word	0x2000000c
+ 8000158:	080000fd 	.word	0x080000fd
+
+0800015c <set_pressure_val>:
+void (*detect_st)();
+
+detect_st_en detect_st_id;
+
+void set_pressure_val(uint8 pval)
+{
+ 800015c:	b480      	push	{r7}
+ 800015e:	b083      	sub	sp, #12
+ 8000160:	af00      	add	r7, sp, #0
+ 8000162:	4603      	mov	r3, r0
+ 8000164:	71fb      	strb	r3, [r7, #7]
+	last_val=pre_val;
+ 8000166:	4b06      	ldr	r3, [pc, #24]	; (8000180 <set_pressure_val+0x24>)
+ 8000168:	781a      	ldrb	r2, [r3, #0]
+ 800016a:	4b06      	ldr	r3, [pc, #24]	; (8000184 <set_pressure_val+0x28>)
+ 800016c:	701a      	strb	r2, [r3, #0]
+	pre_val=pval;
+ 800016e:	4a04      	ldr	r2, [pc, #16]	; (8000180 <set_pressure_val+0x24>)
+ 8000170:	79fb      	ldrb	r3, [r7, #7]
+ 8000172:	7013      	strb	r3, [r2, #0]
+}
+ 8000174:	bf00      	nop
+ 8000176:	370c      	adds	r7, #12
+ 8000178:	46bd      	mov	sp, r7
+ 800017a:	bc80      	pop	{r7}
+ 800017c:	4770      	bx	lr
+ 800017e:	bf00      	nop
+ 8000180:	20000014 	.word	0x20000014
+ 8000184:	20000015 	.word	0x20000015
+
+08000188 <st_pressure_detect>:
+
+
+STATE_define(pressure_detect)
+{
+ 8000188:	b580      	push	{r7, lr}
+ 800018a:	af00      	add	r7, sp, #0
+	detect_st_id=pressure_detect;
+ 800018c:	4b0d      	ldr	r3, [pc, #52]	; (80001c4 <st_pressure_detect+0x3c>)
+ 800018e:	2200      	movs	r2, #0
+ 8000190:	701a      	strb	r2, [r3, #0]
+	if (pre_val > threshold && pre_val!=last_val)
+ 8000192:	4b0d      	ldr	r3, [pc, #52]	; (80001c8 <st_pressure_detect+0x40>)
+ 8000194:	781a      	ldrb	r2, [r3, #0]
+ 8000196:	4b0d      	ldr	r3, [pc, #52]	; (80001cc <st_pressure_detect+0x44>)
+ 8000198:	781b      	ldrb	r3, [r3, #0]
+ 800019a:	429a      	cmp	r2, r3
+ 800019c:	d90b      	bls.n	80001b6 <st_pressure_detect+0x2e>
+ 800019e:	4b0a      	ldr	r3, [pc, #40]	; (80001c8 <st_pressure_detect+0x40>)
+ 80001a0:	781a      	ldrb	r2, [r3, #0]
+ 80001a2:	4b0b      	ldr	r3, [pc, #44]	; (80001d0 <st_pressure_detect+0x48>)
+ 80001a4:	781b      	ldrb	r3, [r3, #0]
+ 80001a6:	429a      	cmp	r2, r3
+ 80001a8:	d005      	beq.n	80001b6 <st_pressure_detect+0x2e>
+	{
+		high_presure_detect();
+ 80001aa:	f7ff ff99 	bl	80000e0 <high_presure_detect>
+		detect_st=STATE(pressure_detect);
+ 80001ae:	4b09      	ldr	r3, [pc, #36]	; (80001d4 <st_pressure_detect+0x4c>)
+ 80001b0:	4a09      	ldr	r2, [pc, #36]	; (80001d8 <st_pressure_detect+0x50>)
+ 80001b2:	601a      	str	r2, [r3, #0]
+ 80001b4:	e003      	b.n	80001be <st_pressure_detect+0x36>
+	}
+	else
+	{
+		detect_st=STATE(pressure_detect);
+ 80001b6:	4b07      	ldr	r3, [pc, #28]	; (80001d4 <st_pressure_detect+0x4c>)
+ 80001b8:	4a07      	ldr	r2, [pc, #28]	; (80001d8 <st_pressure_detect+0x50>)
+ 80001ba:	601a      	str	r2, [r3, #0]
+	}
+}
+ 80001bc:	bf00      	nop
+ 80001be:	bf00      	nop
+ 80001c0:	bd80      	pop	{r7, pc}
+ 80001c2:	bf00      	nop
+ 80001c4:	2000001c 	.word	0x2000001c
+ 80001c8:	20000014 	.word	0x20000014
+ 80001cc:	20000000 	.word	0x20000000
+ 80001d0:	20000015 	.word	0x20000015
+ 80001d4:	20000018 	.word	0x20000018
+ 80001d8:	08000189 	.word	0x08000189
+
+080001dc <Delay>:
+#include "driver.h"
+#include <stdint.h>
+#include <stdio.h>
+void Delay(int nCount)
+{
+ 80001dc:	b480      	push	{r7}
+ 80001de:	b083      	sub	sp, #12
+ 80001e0:	af00      	add	r7, sp, #0
+ 80001e2:	6078      	str	r0, [r7, #4]
+	for(; nCount != 0; nCount--);
+ 80001e4:	e002      	b.n	80001ec <Delay+0x10>
+ 80001e6:	687b      	ldr	r3, [r7, #4]
+ 80001e8:	3b01      	subs	r3, #1
+ 80001ea:	607b      	str	r3, [r7, #4]
+ 80001ec:	687b      	ldr	r3, [r7, #4]
+ 80001ee:	2b00      	cmp	r3, #0
+ 80001f0:	d1f9      	bne.n	80001e6 <Delay+0xa>
+}
+ 80001f2:	bf00      	nop
+ 80001f4:	bf00      	nop
+ 80001f6:	370c      	adds	r7, #12
+ 80001f8:	46bd      	mov	sp, r7
+ 80001fa:	bc80      	pop	{r7}
+ 80001fc:	4770      	bx	lr
+
+080001fe <getPressureVal>:
+
+int getPressureVal(){
+ 80001fe:	b480      	push	{r7}
+ 8000200:	af00      	add	r7, sp, #0
+	return (GPIOA_IDR & 0xFF);
+ 8000202:	4b03      	ldr	r3, [pc, #12]	; (8000210 <getPressureVal+0x12>)
+ 8000204:	681b      	ldr	r3, [r3, #0]
+ 8000206:	b2db      	uxtb	r3, r3
+}
+ 8000208:	4618      	mov	r0, r3
+ 800020a:	46bd      	mov	sp, r7
+ 800020c:	bc80      	pop	{r7}
+ 800020e:	4770      	bx	lr
+ 8000210:	40010808 	.word	0x40010808
+
+08000214 <Set_Alarm_actuator>:
+
+void Set_Alarm_actuator(int i){
+ 8000214:	b480      	push	{r7}
+ 8000216:	b083      	sub	sp, #12
+ 8000218:	af00      	add	r7, sp, #0
+ 800021a:	6078      	str	r0, [r7, #4]
+	if (i == 1){
+ 800021c:	687b      	ldr	r3, [r7, #4]
+ 800021e:	2b01      	cmp	r3, #1
+ 8000220:	d106      	bne.n	8000230 <Set_Alarm_actuator+0x1c>
+		SET_BIT(GPIOA_ODR,13);
+ 8000222:	4b0a      	ldr	r3, [pc, #40]	; (800024c <Set_Alarm_actuator+0x38>)
+ 8000224:	681b      	ldr	r3, [r3, #0]
+ 8000226:	4a09      	ldr	r2, [pc, #36]	; (800024c <Set_Alarm_actuator+0x38>)
+ 8000228:	f443 5300 	orr.w	r3, r3, #8192	; 0x2000
+ 800022c:	6013      	str	r3, [r2, #0]
+	}
+	else if (i == 0){
+		RESET_BIT(GPIOA_ODR,13);
+	}
+}
+ 800022e:	e008      	b.n	8000242 <Set_Alarm_actuator+0x2e>
+	else if (i == 0){
+ 8000230:	687b      	ldr	r3, [r7, #4]
+ 8000232:	2b00      	cmp	r3, #0
+ 8000234:	d105      	bne.n	8000242 <Set_Alarm_actuator+0x2e>
+		RESET_BIT(GPIOA_ODR,13);
+ 8000236:	4b05      	ldr	r3, [pc, #20]	; (800024c <Set_Alarm_actuator+0x38>)
+ 8000238:	681b      	ldr	r3, [r3, #0]
+ 800023a:	4a04      	ldr	r2, [pc, #16]	; (800024c <Set_Alarm_actuator+0x38>)
+ 800023c:	f423 5300 	bic.w	r3, r3, #8192	; 0x2000
+ 8000240:	6013      	str	r3, [r2, #0]
+}
+ 8000242:	bf00      	nop
+ 8000244:	370c      	adds	r7, #12
+ 8000246:	46bd      	mov	sp, r7
+ 8000248:	bc80      	pop	{r7}
+ 800024a:	4770      	bx	lr
+ 800024c:	4001080c 	.word	0x4001080c
+
+08000250 <GPIO_INITIALIZATION>:
+
+void GPIO_INITIALIZATION (){
+ 8000250:	b480      	push	{r7}
+ 8000252:	af00      	add	r7, sp, #0
+	SET_BIT(APB2ENR, 2);
+ 8000254:	4b0f      	ldr	r3, [pc, #60]	; (8000294 <GPIO_INITIALIZATION+0x44>)
+ 8000256:	681b      	ldr	r3, [r3, #0]
+ 8000258:	4a0e      	ldr	r2, [pc, #56]	; (8000294 <GPIO_INITIALIZATION+0x44>)
+ 800025a:	f043 0304 	orr.w	r3, r3, #4
+ 800025e:	6013      	str	r3, [r2, #0]
+	GPIOA_CRL &= 0xFF0FFFFF;
+ 8000260:	4b0d      	ldr	r3, [pc, #52]	; (8000298 <GPIO_INITIALIZATION+0x48>)
+ 8000262:	681b      	ldr	r3, [r3, #0]
+ 8000264:	4a0c      	ldr	r2, [pc, #48]	; (8000298 <GPIO_INITIALIZATION+0x48>)
+ 8000266:	f423 0370 	bic.w	r3, r3, #15728640	; 0xf00000
+ 800026a:	6013      	str	r3, [r2, #0]
+	GPIOA_CRL |= 0x00000000;
+ 800026c:	4b0a      	ldr	r3, [pc, #40]	; (8000298 <GPIO_INITIALIZATION+0x48>)
+ 800026e:	4a0a      	ldr	r2, [pc, #40]	; (8000298 <GPIO_INITIALIZATION+0x48>)
+ 8000270:	681b      	ldr	r3, [r3, #0]
+ 8000272:	6013      	str	r3, [r2, #0]
+	GPIOA_CRH &= 0xFF0FFFFF;
+ 8000274:	4b09      	ldr	r3, [pc, #36]	; (800029c <GPIO_INITIALIZATION+0x4c>)
+ 8000276:	681b      	ldr	r3, [r3, #0]
+ 8000278:	4a08      	ldr	r2, [pc, #32]	; (800029c <GPIO_INITIALIZATION+0x4c>)
+ 800027a:	f423 0370 	bic.w	r3, r3, #15728640	; 0xf00000
+ 800027e:	6013      	str	r3, [r2, #0]
+	GPIOA_CRH |= 0x22222222;
+ 8000280:	4b06      	ldr	r3, [pc, #24]	; (800029c <GPIO_INITIALIZATION+0x4c>)
+ 8000282:	681b      	ldr	r3, [r3, #0]
+ 8000284:	4a05      	ldr	r2, [pc, #20]	; (800029c <GPIO_INITIALIZATION+0x4c>)
+ 8000286:	f043 3322 	orr.w	r3, r3, #572662306	; 0x22222222
+ 800028a:	6013      	str	r3, [r2, #0]
+}
+ 800028c:	bf00      	nop
+ 800028e:	46bd      	mov	sp, r7
+ 8000290:	bc80      	pop	{r7}
+ 8000292:	4770      	bx	lr
+ 8000294:	40021018 	.word	0x40021018
+ 8000298:	40010800 	.word	0x40010800
+ 800029c:	40010804 	.word	0x40010804
+
+080002a0 <setup>:
+#include "alarm.h"
+#include "detect.h"
+#include "STD_TYPES.h"
+
+void setup()
+{
+ 80002a0:	b580      	push	{r7, lr}
+ 80002a2:	af00      	add	r7, sp, #0
+	GPIO_INITIALIZATION();
+ 80002a4:	f7ff ffd4 	bl	8000250 <GPIO_INITIALIZATION>
+	pre_sen_init();
+ 80002a8:	f000 f82c 	bl	8000304 <pre_sen_init>
+	detect_st=STATE(pressure_detect);
+ 80002ac:	4b04      	ldr	r3, [pc, #16]	; (80002c0 <setup+0x20>)
+ 80002ae:	4a05      	ldr	r2, [pc, #20]	; (80002c4 <setup+0x24>)
+ 80002b0:	601a      	str	r2, [r3, #0]
+	alr_mon_st=STATE(alarm_off);
+ 80002b2:	4b05      	ldr	r3, [pc, #20]	; (80002c8 <setup+0x28>)
+ 80002b4:	4a05      	ldr	r2, [pc, #20]	; (80002cc <setup+0x2c>)
+ 80002b6:	601a      	str	r2, [r3, #0]
+	alarm_init();
+ 80002b8:	f7ff feb0 	bl	800001c <alarm_init>
+}
+ 80002bc:	bf00      	nop
+ 80002be:	bd80      	pop	{r7, pc}
+ 80002c0:	20000018 	.word	0x20000018
+ 80002c4:	08000189 	.word	0x08000189
+ 80002c8:	2000000c 	.word	0x2000000c
+ 80002cc:	080000fd 	.word	0x080000fd
+
+080002d0 <main>:
+int main(){
+ 80002d0:	b580      	push	{r7, lr}
+ 80002d2:	af00      	add	r7, sp, #0
+	setup();
+ 80002d4:	f7ff ffe4 	bl	80002a0 <setup>
+	while(1)
+	{
+		pre_st();
+ 80002d8:	4b06      	ldr	r3, [pc, #24]	; (80002f4 <main+0x24>)
+ 80002da:	681b      	ldr	r3, [r3, #0]
+ 80002dc:	4798      	blx	r3
+		detect_st();
+ 80002de:	4b06      	ldr	r3, [pc, #24]	; (80002f8 <main+0x28>)
+ 80002e0:	681b      	ldr	r3, [r3, #0]
+ 80002e2:	4798      	blx	r3
+		alr_mon_st();
+ 80002e4:	4b05      	ldr	r3, [pc, #20]	; (80002fc <main+0x2c>)
+ 80002e6:	681b      	ldr	r3, [r3, #0]
+ 80002e8:	4798      	blx	r3
+		alarm_st();
+ 80002ea:	4b05      	ldr	r3, [pc, #20]	; (8000300 <main+0x30>)
+ 80002ec:	681b      	ldr	r3, [r3, #0]
+ 80002ee:	4798      	blx	r3
+		pre_st();
+ 80002f0:	e7f2      	b.n	80002d8 <main+0x8>
+ 80002f2:	bf00      	nop
+ 80002f4:	20000024 	.word	0x20000024
+ 80002f8:	20000018 	.word	0x20000018
+ 80002fc:	2000000c 	.word	0x2000000c
+ 8000300:	20000004 	.word	0x20000004
+
+08000304 <pre_sen_init>:
+void (*pre_st)();
+
+pre_state_en pre_state_id;
+
+void pre_sen_init()
+{
+ 8000304:	b480      	push	{r7}
+ 8000306:	af00      	add	r7, sp, #0
+	//init  pre_sensor
+	pre_st=STATE(read_pressure);
+ 8000308:	4b03      	ldr	r3, [pc, #12]	; (8000318 <pre_sen_init+0x14>)
+ 800030a:	4a04      	ldr	r2, [pc, #16]	; (800031c <pre_sen_init+0x18>)
+ 800030c:	601a      	str	r2, [r3, #0]
+}
+ 800030e:	bf00      	nop
+ 8000310:	46bd      	mov	sp, r7
+ 8000312:	bc80      	pop	{r7}
+ 8000314:	4770      	bx	lr
+ 8000316:	bf00      	nop
+ 8000318:	20000024 	.word	0x20000024
+ 800031c:	08000321 	.word	0x08000321
+
+08000320 <st_read_pressure>:
+
+STATE_define(read_pressure)
+{
+ 8000320:	b580      	push	{r7, lr}
+ 8000322:	af00      	add	r7, sp, #0
+	pre_state_id=read_pressure;
+ 8000324:	4b09      	ldr	r3, [pc, #36]	; (800034c <st_read_pressure+0x2c>)
+ 8000326:	2200      	movs	r2, #0
+ 8000328:	701a      	strb	r2, [r3, #0]
+	pval=getPressureVal();
+ 800032a:	f7ff ff68 	bl	80001fe <getPressureVal>
+ 800032e:	4603      	mov	r3, r0
+ 8000330:	b2da      	uxtb	r2, r3
+ 8000332:	4b07      	ldr	r3, [pc, #28]	; (8000350 <st_read_pressure+0x30>)
+ 8000334:	701a      	strb	r2, [r3, #0]
+	set_pressure_val(pval);
+ 8000336:	4b06      	ldr	r3, [pc, #24]	; (8000350 <st_read_pressure+0x30>)
+ 8000338:	781b      	ldrb	r3, [r3, #0]
+ 800033a:	4618      	mov	r0, r3
+ 800033c:	f7ff ff0e 	bl	800015c <set_pressure_val>
+	pre_st=STATE(read_pressure);
+ 8000340:	4b04      	ldr	r3, [pc, #16]	; (8000354 <st_read_pressure+0x34>)
+ 8000342:	4a05      	ldr	r2, [pc, #20]	; (8000358 <st_read_pressure+0x38>)
+ 8000344:	601a      	str	r2, [r3, #0]
+}
+ 8000346:	bf00      	nop
+ 8000348:	bd80      	pop	{r7, pc}
+ 800034a:	bf00      	nop
+ 800034c:	20000028 	.word	0x20000028
+ 8000350:	20000020 	.word	0x20000020
+ 8000354:	20000024 	.word	0x20000024
+ 8000358:	08000321 	.word	0x08000321
+
+0800035c <st_waiting>:
+
+STATE_define(waiting)
+{
+ 800035c:	b480      	push	{r7}
+ 800035e:	af00      	add	r7, sp, #0
+	pre_state_id=waiting;
+ 8000360:	4b04      	ldr	r3, [pc, #16]	; (8000374 <st_waiting+0x18>)
+ 8000362:	2201      	movs	r2, #1
+ 8000364:	701a      	strb	r2, [r3, #0]
+	pre_st=STATE(read_pressure);
+ 8000366:	4b04      	ldr	r3, [pc, #16]	; (8000378 <st_waiting+0x1c>)
+ 8000368:	4a04      	ldr	r2, [pc, #16]	; (800037c <st_waiting+0x20>)
+ 800036a:	601a      	str	r2, [r3, #0]
+}
+ 800036c:	bf00      	nop
+ 800036e:	46bd      	mov	sp, r7
+ 8000370:	bc80      	pop	{r7}
+ 8000372:	4770      	bx	lr
+ 8000374:	20000028 	.word	0x20000028
+ 8000378:	20000024 	.word	0x20000024
+ 800037c:	08000321 	.word	0x08000321
+
+08000380 <Default_handler>:
+extern int main(void);
+void Rest_Handler();
+void init_sect(void);
+
+void Default_handler(void)
+{
+ 8000380:	b580      	push	{r7, lr}
+ 8000382:	af00      	add	r7, sp, #0
+	Rest_Handler();
+ 8000384:	f000 f802 	bl	800038c <Rest_Handler>
+}
+ 8000388:	bf00      	nop
+ 800038a:	bd80      	pop	{r7, pc}
+
+0800038c <Rest_Handler>:
+	(uint32) &MM_Handler,
+	(uint32) &Bus_Handler,
+	(uint32) &Usage_Fault_Handler,
+};
+void Rest_Handler(void)
+{
+ 800038c:	b580      	push	{r7, lr}
+ 800038e:	af00      	add	r7, sp, #0
+	init_sect();
+ 8000390:	f000 f804 	bl	800039c <init_sect>
+	main();
+ 8000394:	f7ff ff9c 	bl	80002d0 <main>
+}
+ 8000398:	bf00      	nop
+ 800039a:	bd80      	pop	{r7, pc}
+
+0800039c <init_sect>:
+void init_sect(void)
+{
+ 800039c:	b480      	push	{r7}
+ 800039e:	b087      	sub	sp, #28
+ 80003a0:	af00      	add	r7, sp, #0
+	uint32 DATA_size = (uint32*)&_E_DATA - (uint32*)&_S_DATA;
+ 80003a2:	4a1b      	ldr	r2, [pc, #108]	; (8000410 <init_sect+0x74>)
+ 80003a4:	4b1b      	ldr	r3, [pc, #108]	; (8000414 <init_sect+0x78>)
+ 80003a6:	1ad3      	subs	r3, r2, r3
+ 80003a8:	109b      	asrs	r3, r3, #2
+ 80003aa:	607b      	str	r3, [r7, #4]
+	uint8 *P_src = (uint8*)&_E_text;
+ 80003ac:	4b1a      	ldr	r3, [pc, #104]	; (8000418 <init_sect+0x7c>)
+ 80003ae:	617b      	str	r3, [r7, #20]
+	uint8 *P_dst = (uint8*)&_S_DATA;
+ 80003b0:	4b18      	ldr	r3, [pc, #96]	; (8000414 <init_sect+0x78>)
+ 80003b2:	613b      	str	r3, [r7, #16]
+	
+	for (uint32 i=0;i<DATA_size;i++)
+ 80003b4:	2300      	movs	r3, #0
+ 80003b6:	60fb      	str	r3, [r7, #12]
+ 80003b8:	e00a      	b.n	80003d0 <init_sect+0x34>
+	{
+		*((uint8*)P_dst++) = *((uint8*)P_src++);
+ 80003ba:	697a      	ldr	r2, [r7, #20]
+ 80003bc:	1c53      	adds	r3, r2, #1
+ 80003be:	617b      	str	r3, [r7, #20]
+ 80003c0:	693b      	ldr	r3, [r7, #16]
+ 80003c2:	1c59      	adds	r1, r3, #1
+ 80003c4:	6139      	str	r1, [r7, #16]
+ 80003c6:	7812      	ldrb	r2, [r2, #0]
+ 80003c8:	701a      	strb	r2, [r3, #0]
+	for (uint32 i=0;i<DATA_size;i++)
+ 80003ca:	68fb      	ldr	r3, [r7, #12]
+ 80003cc:	3301      	adds	r3, #1
+ 80003ce:	60fb      	str	r3, [r7, #12]
+ 80003d0:	68fa      	ldr	r2, [r7, #12]
+ 80003d2:	687b      	ldr	r3, [r7, #4]
+ 80003d4:	429a      	cmp	r2, r3
+ 80003d6:	d3f0      	bcc.n	80003ba <init_sect+0x1e>
+	}
+	
+	uint32 bss_size = (uint32*)&_E_BSS - (uint32*)&_S_BSS;
+ 80003d8:	4a10      	ldr	r2, [pc, #64]	; (800041c <init_sect+0x80>)
+ 80003da:	4b11      	ldr	r3, [pc, #68]	; (8000420 <init_sect+0x84>)
+ 80003dc:	1ad3      	subs	r3, r2, r3
+ 80003de:	109b      	asrs	r3, r3, #2
+ 80003e0:	603b      	str	r3, [r7, #0]
+	P_dst =(uint8*)&_S_BSS;
+ 80003e2:	4b0f      	ldr	r3, [pc, #60]	; (8000420 <init_sect+0x84>)
+ 80003e4:	613b      	str	r3, [r7, #16]
+	for (uint32 i=0;i<bss_size;i++)
+ 80003e6:	2300      	movs	r3, #0
+ 80003e8:	60bb      	str	r3, [r7, #8]
+ 80003ea:	e007      	b.n	80003fc <init_sect+0x60>
+	{
+		*((uint8*)P_dst++) = (uint8)0;
+ 80003ec:	693b      	ldr	r3, [r7, #16]
+ 80003ee:	1c5a      	adds	r2, r3, #1
+ 80003f0:	613a      	str	r2, [r7, #16]
+ 80003f2:	2200      	movs	r2, #0
+ 80003f4:	701a      	strb	r2, [r3, #0]
+	for (uint32 i=0;i<bss_size;i++)
+ 80003f6:	68bb      	ldr	r3, [r7, #8]
+ 80003f8:	3301      	adds	r3, #1
+ 80003fa:	60bb      	str	r3, [r7, #8]
+ 80003fc:	68ba      	ldr	r2, [r7, #8]
+ 80003fe:	683b      	ldr	r3, [r7, #0]
+ 8000400:	429a      	cmp	r2, r3
+ 8000402:	d3f3      	bcc.n	80003ec <init_sect+0x50>
+	}
+	
+ 8000404:	bf00      	nop
+ 8000406:	bf00      	nop
+ 8000408:	371c      	adds	r7, #28
+ 800040a:	46bd      	mov	sp, r7
+ 800040c:	bc80      	pop	{r7}
+ 800040e:	4770      	bx	lr
+ 8000410:	20000004 	.word	0x20000004
+ 8000414:	20000000 	.word	0x20000000
+ 8000418:	08000424 	.word	0x08000424
+ 800041c:	2000002c 	.word	0x2000002c
+ 8000420:	20000004 	.word	0x20000004

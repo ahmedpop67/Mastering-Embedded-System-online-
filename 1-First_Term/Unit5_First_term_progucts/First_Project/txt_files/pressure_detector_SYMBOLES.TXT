@@ -1,0 +1,73 @@
+
+pressure_detector.elf:     file format elf32-littlearm
+
+SYMBOL TABLE:
+08000000 l    d  .text	00000000 .text
+20000000 l    d  .data	00000000 .data
+20000004 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_loc	00000000 .debug_loc
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .ARM.attributes	00000000 .ARM.attributes
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 startup.c
+00000000 l    df *ABS*	00000000 alarm.c
+00000000 l    df *ABS*	00000000 alarm_monitor.c
+00000000 l    df *ABS*	00000000 detect.c
+00000000 l    df *ABS*	00000000 driver.c
+00000000 l    df *ABS*	00000000 main.c
+00000000 l    df *ABS*	00000000 pressure_sensor.c
+20000024 g     O .bss	00000004 pre_st
+08000250 g     F .text	00000050 GPIO_INITIALIZATION
+20000000 g     O .data	00000001 threshold
+08000380  w    F .text	0000000c NMI_Handler
+080000fc g     F .text	00000018 st_alarm_off
+08000380  w    F .text	0000000c MM_Handler
+080000a0 g     F .text	00000028 st_alarm_stop
+08000380  w    F .text	0000000c H_Fault_Handler
+20000018 g     O .bss	00000004 detect_st
+080000e0 g     F .text	0000001c high_presure_detect
+20000010 g     O .bss	00000001 alr_mon_st_id
+08000114 g     F .text	00000024 st_alarm_on
+20000004 g     O .bss	00000004 alarm_st
+2000000c g     O .bss	00000004 alr_mon_st
+08000038 g     F .text	0000001c start_alarm
+20000004 g       .data	00000000 _E_DATA
+20000014 g     O .bss	00000001 pre_val
+08000070 g     F .text	00000030 st_alarm_start
+080001fe g     F .text	00000016 getPressureVal
+2000002c g       .bss	00000000 _E_BSS
+2000102c g       .bss	00000000 stack_top
+08000214 g     F .text	0000003c Set_Alarm_actuator
+080002d0 g     F .text	00000034 main
+08000380  w    F .text	0000000c Usage_Fault_Handler
+20000028 g     O .bss	00000001 pre_state_id
+0800039c g     F .text	00000088 init_sect
+08000320 g     F .text	0000003c st_read_pressure
+20000000 g       .data	00000000 _S_DATA
+0800038c g     F .text	00000010 Rest_Handler
+20000015 g     O .bss	00000001 last_val
+080002a0 g     F .text	00000030 setup
+080001dc g     F .text	00000022 Delay
+08000188 g     F .text	00000054 st_pressure_detect
+08000380  w    F .text	0000000c Bus_Handler
+08000304 g     F .text	0000001c pre_sen_init
+20000004 g       .bss	00000000 _S_BSS
+0800035c g     F .text	00000024 st_waiting
+08000054 g     F .text	0000001c stop_alarm
+080000c8 g     F .text	00000018 st_alarm_waiting
+08000138 g     F .text	00000024 st_timer_waiting
+08000424 g       .text	00000000 _E_text
+20000020 g     O .bss	00000001 pval
+08000000 g     O .text	0000001c vectors
+2000001c g     O .bss	00000001 detect_st_id
+0800001c g     F .text	0000001c alarm_init
+20000008 g     O .bss	00000001 alarm_st_id
+08000380 g     F .text	0000000c Default_handler
+0800015c g     F .text	0000002c set_pressure_val
+
+
