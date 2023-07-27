@@ -115,24 +115,33 @@ while(i<fifo_buf.count && temp->roll!=id)
 }
 if(i>=fifo_buf.count)
     printf("not found this roll number");
-else
-{
-    stinfo *temp2=fifo_buf.tail;
-    strcpy(fifo_buf.tail->fname,temp->fname);
-    strcpy(temp->fname,temp2->fname);
-    strcpy(fifo_buf.tail->fname,temp->lname);
-    strcpy(temp->fname,temp2->lname);
-    fifo_buf.tail->roll=temp->roll;
-    temp->roll=temp2->roll;
-    fifo_buf.tail->GPA=temp->GPA;
-    temp->GPA=temp2->GPA;
+else{
+    char temp_fname[50];
+    strcpy(temp_fname,temp->fname);
+    char temp_lname[50];
+    strcpy(temp_lname,temp->lname);
+    int temp_roll=temp->roll;
+    int temp_cid[5];
+    float temp_gpa=temp->GPA;
     for (int i=0;i<5;i++)
     {
-        fifo_buf.tail->cid[i]=temp->cid[i];
-        temp->cid[i]=temp2->cid[i];
+      temp_cid[i]=temp->cid[i];
     }
-       if(fifo_buf.tail=fifo_buf.base+fifo_buf.length*(sizeof(stinfo)))
-        fifo_buf.tail=fifo_buf.base;
+    strcpy(temp->fname,fifo_buf.tail->fname);
+    strcpy(fifo_buf.tail->fname,temp_fname);
+    strcpy(temp->lname,fifo_buf.tail->lname);
+    strcpy(fifo_buf.tail->lname,temp_lname);
+    temp->roll=fifo_buf.tail->roll;
+    fifo_buf.tail->roll=temp_roll;
+    temp->GPA=fifo_buf.tail->GPA;
+    fifo_buf.tail->GPA=temp_gpa;
+    for (int i=0;i<5;i++)
+    {
+        temp->cid[i]=fifo_buf.tail->cid[i];
+        fifo_buf.tail->cid[i]=temp_cid[i];
+    }
+       if(fifo_buf.tail==fifo_buf.base+fifo_buf.length*(sizeof(stinfo)))
+         fifo_buf.tail=fifo_buf.base;
    else
         fifo_buf.tail++;
    fifo_buf.count--;
@@ -161,18 +170,19 @@ void displsy_student()
     else{
     stinfo *temp=fifo_buf.tail;
     int i=0;
-    //printf("\n\n\t\t\t\t\t                            * the list is *\n");
-        //printf("\t\t\t\t\t                      ************************* \n");
-        //printf(" fname\t\tlname\t\troll_Num\t\tGPA\t1st c_id\t2st c_id\t3st c_id\t4st c_id\t5st c_id\n****************************************************************************************************************************************\n");
+    printf("\n\n\t\t\t\t\t                            * the list is *\n");
+        printf("\t\t\t\t\t                      ************************* \n");
+        printf(" fname\t\tlname\t\troll_Num\t\tGPA\t1st c_id\t2st c_id\t3st c_id\t4st c_id\t5st c_id\n****************************************************************************************************************************************\n");
     while(i<fifo_buf.count)
     {
-        printf("\n%s\t\t%s\t\t%d\t\t%.2f\t\t%d\t%d\t%d\t%d\t%d\t\n\n",temp->fname,temp->lname,temp->roll,temp->GPA,temp->cid[0],temp->cid[1],temp->cid[2],temp->cid[3],temp->cid[4]);
+        printf("\n%s\t\t%s\t\t%d\t\t\t%.2f\t %d\t\t%d   \t\t%d\t\t%d \t\t%d   \t\n\n",temp->fname,temp->lname,temp->roll,temp->GPA,temp->cid[0],temp->cid[1],temp->cid[2],temp->cid[3],temp->cid[4]);
         if(temp==fifo_buf.base+fifo_buf.length*(sizeof(stinfo)))
            temp=fifo_buf.base;
         else
            temp++;
         i++;
     }
+   printf("\n****************************************************************************************************************************************\n");
     }
 }
 void search_student_by_rollnum()
@@ -245,7 +255,7 @@ void search_student_by_cid()
     int flag=0;
     fflush(stdin);
 	fflush(stdout);
-	printf("enter your roll number: ");
+	printf("enter your course id: ");
 	scanf("%d",&cid);
 	stinfo *temp=fifo_buf.tail;
 int i=0;
