@@ -30,11 +30,22 @@ void RCC_voidInitSysClock(void)
 		CLR_BIT(RCC_CFGR,1);
 	#elif RCC_CLOCK_TYPE == RCC_PLL
 		#if RCC_PLL_CLOCK   == RCC_PLL_IN_HSI_DIV_2
+		    SET_BIT(RCC_CR,0);
+			CLR_BIT(RCC_CFGR,0);
+			CLR_BIT(RCC_CFGR,1);
 			CLR_BIT(RCC_CFGR,16);
 		#elif RCC_PLL_CLOCK == RCC_PLL_IN_HSE_DIV_2
+			SET_BIT(RCC_CR,16);
+			SET_BIT(RCC_CR,18);
+			SET_BIT(RCC_CFGR,0);
+			CLR_BIT(RCC_CFGR,1);
 			SET_BIT(RCC_CFGR,17);
 			SET_BIT(RCC_CFGR,16);
 		#elif RCC_PLL_CLOCK == RCC_PLL_IN_HSE
+			SET_BIT(RCC_CR,16);
+			SET_BIT(RCC_CR,18);
+			SET_BIT(RCC_CFGR,0);
+			CLR_BIT(RCC_CFGR,1);
 			CLR_BIT(RCC_CFGR,17);
 			SET_BIT(RCC_CFGR,16);
 		#else #error("wrong choise")
@@ -116,6 +127,7 @@ void RCC_voidInitSysClock(void)
 			SET_BIT(RCC_CFGR,21);
 		#else #error("wrong choise")
 		#endif
+		SET_BIT(RCC_CR,24);
 		CLR_BIT(RCC_CFGR,0);
 		SET_BIT(RCC_CFGR,1);
 	#else #error("wrong choise")
@@ -208,7 +220,7 @@ void RCC_voidInitSysClock(void)
 
 void RCC_voidEnableClock(uint8 copy_uint8_BusId,uint8 copy_uint8_PortId)
 {
-	if(copy_uint8_BusId <= 2 && copy_uint8_PortId<=31)
+	if(copy_uint8_PortId<=31)
 	{
 		switch(copy_uint8_BusId)
 		{

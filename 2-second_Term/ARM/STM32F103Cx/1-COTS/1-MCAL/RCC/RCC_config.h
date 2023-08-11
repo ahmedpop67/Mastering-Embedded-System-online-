@@ -12,7 +12,7 @@
             RCC_HSI
             RCC_PLL
 */
-#define RCC_CLOCK_TYPE     RCC_HSE_CRYSTAL
+#define RCC_CLOCK_TYPE     RCC_PLL
 
 #if RCC_CLOCK_TYPE == RCC_PLL
 /*chose from these ooptions
@@ -41,7 +41,7 @@
         RCC_PLL_IN_MUL_15
         RCC_PLL_IN_MUL_16
 */
-#define RCC_PLL_MUL      RCC_PLL_IN_MUL_2 
+#define RCC_PLL_MUL      RCC_PLL_IN_MUL_16
 
 #endif
 
@@ -68,7 +68,7 @@
          RCC_APB1_DIV_8
          RCC_APB1_DIV_16
 */
-#define RCC_APB1_PRESCALER   RCC_APB1_DIV_1  
+#define RCC_APB1_PRESCALER   RCC_APB1_DIV_2
 
 
 /*APB2 prescaler 
@@ -79,7 +79,7 @@
          RCC_APB2_DIV_8
          RCC_APB2_DIV_16
 */
-#define RCC_APB2_PRESCALER   RCC_APB2_DIV_1 
+#define RCC_APB2_PRESCALER   RCC_APB2_DIV_4
 
 
 #endif
