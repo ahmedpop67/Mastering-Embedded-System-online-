@@ -12,7 +12,6 @@ void NVIC_voidDisableInterrupt(uint8 copy_uint8IntNumber);
 void NVIC_voidSetPeningFlag(uint8 copy_uint8IntNumber);
 void NVIC_voidClearPeningFlag(uint8 copy_uint8IntNumber);
 uint8 NVIC_voidGetActiveFlag(uint8 copy_uint8IntNumber);
-void NVIC_voidSetPriority(uint8 copy_uint8IntID);
 void NVIC_voidSetPriority(uint8 copy_uint8IntID,uint8 copy_uint8Group_ID,uint8,Sub_ID);
 
 #endif
